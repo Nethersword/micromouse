@@ -5,13 +5,13 @@
 #define ENCODER_RIGHT_C1 2
 #define ENCODER_RIGHT_C2 11
 
-volatile int left_counts = 0;
-volatile int right_counts = 0;
+volatile long left_counts = 0;
+volatile long right_counts = 0;
 
 void readEncoderRight()
 {
-    int rc2 = digitalRead(ENCODER_RIGHT_C2);
-    if (rc2 == 1)
+    int c2 = digitalRead(ENCODER_RIGHT_C2);
+    if (c2 == 1)
     {
         right_counts++;
     }
@@ -19,6 +19,7 @@ void readEncoderRight()
     {
         right_counts--;
     }
+    // Serial.println(right_counts);
 }
 void readEncoderLeft()
 {
@@ -31,6 +32,7 @@ void readEncoderLeft()
     {
         left_counts--;
     }
+    // Serial.println(left_counts);
 }
 void setupEncoders()
 {
@@ -57,4 +59,18 @@ int getRightCount()
         ct = right_counts;
     }
     return ct;
+}
+void resetEncoders()
+{
+    right_counts=0;
+    left_counts=0;
+}
+float encoderPosition()
+{
+      int l = 0,r=0;
+    ATOMIC_BLOCK(ATOMIC_RESTORESTATE){
+        r = right_counts;
+        l = left_counts;
+    }
+    return 0.5*(l+r);  
 }

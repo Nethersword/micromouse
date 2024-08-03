@@ -1,6 +1,6 @@
 #include <Arduino.h>
 #include "encoders.h"
-
+#include "motors.h"
 void setup()
 {
   Serial.begin(9600);
@@ -9,8 +9,6 @@ void setup()
 
 void loop()
 {
-  // put your main code here, to run repeatedly:
-  Serial.print(getLeftCount());
-  Serial.print(" ");
-  Serial.println(getRightCount());
+  move_one_cell();
+  delay(1000);
 }
